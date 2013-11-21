@@ -37,11 +37,11 @@ public class MCApp extends Application {
 		}
 	}
 
-	public static String appVersionName() {
+	public static String getAppVersionName() {
 		return appVersionName;
 	}
 
-	public static int appRevision() {
+	public static int getAppRevision() {
 		return appRevision;
 	}
 

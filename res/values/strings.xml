@@ -1,5 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">MordazaCrush</string>
+    <string name="app_name">Mordaza Crush</string>
+    <string name="action_settings">Settings</string>
+    
+    <!-- activity main -->
+    <string name="main_lblTitle">Mordaza Crush %1$s</string>
 
 </resources>
