@@ -16,7 +16,8 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name="org.confederacionpirata.mordazacrush.MCApp"
@@ -26,7 +27,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="org.confederacionpirata.mordazacrush.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
