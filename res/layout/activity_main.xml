@@ -4,4 +4,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <LinearLayout
+        android:id="@+id/layButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/btnTakePhoto"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@android:string/untitled"
+            android:scaleType="fitCenter"
+            android:src="@drawable/main_take_photo" />
+
+        <ImageButton
+            android:id="@+id/btnTakePhotoBurst"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:visibility="gone"
+            android:contentDescription="@android:string/untitled"
+            android:scaleType="fitCenter"
+            android:src="@drawable/main_take_photo" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/layCameraPreview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/layButtons" >
+    </FrameLayout>
+
 </RelativeLayout>
