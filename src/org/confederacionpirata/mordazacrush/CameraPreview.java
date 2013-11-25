@@ -68,21 +68,27 @@ public class CameraPreview extends SurfaceView implements Callback {
 			Parameters params = camera.getParameters();
 
 			// auto focus
-			if (params.getSupportedFocusModes().contains(
-					Camera.Parameters.FOCUS_MODE_AUTO)) {
-				params.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+			if (params.getFocusMode() != null) {
+				if (params.getSupportedFocusModes().contains(
+						Camera.Parameters.FOCUS_MODE_AUTO)) {
+					params.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+				}
 			}
 
 			// auto white balance
-			if (params.getSupportedWhiteBalance().contains(
-					Camera.Parameters.WHITE_BALANCE_AUTO)) {
-				params.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_AUTO);
+			if (params.getWhiteBalance() != null) {
+				if (params.getSupportedWhiteBalance().contains(
+						Camera.Parameters.WHITE_BALANCE_AUTO)) {
+					params.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_AUTO);
+				}
 			}
 
 			// disable flash
-			if (params.getSupportedFlashModes().contains(
-					Camera.Parameters.FLASH_MODE_OFF)) {
-				params.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+			if (params.getFlashMode() != null) {
+				if (params.getSupportedFlashModes().contains(
+						Camera.Parameters.FLASH_MODE_OFF)) {
+					params.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+				}
 			}
 
 			camera.setParameters(params);
