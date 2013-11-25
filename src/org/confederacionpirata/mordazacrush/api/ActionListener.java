@@ -7,15 +7,15 @@ public interface ActionListener {
 	 * 
 	 * @param queueHandler
 	 */
-	void onProgress(QueuedMessage queueHandler);
+	void onProgress(QueuedMessage queueMessage);
 
 	/**
 	 * An error was raised. 
 	 */
-	void onError(QueuedMessage queueHandler);
+	void onError(QueuedMessage queueMessage);
 
 	/**
 	 * Photo was sent.
 	 */
-	void onComplete(QueuedMessage queueHandler);
+	void onComplete(QueuedMessage queueMessage);
 }

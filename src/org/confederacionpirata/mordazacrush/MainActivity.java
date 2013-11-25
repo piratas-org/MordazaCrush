@@ -115,8 +115,8 @@ public class MainActivity extends Activity implements PictureCallback {
 
 		ChannelManager cm = ChannelManager.getInstance();
 
-//		MediaCrushProvider mediaCrush = new MediaCrushProvider(MEDIACRUSH_URL);
-//		cm.getChannels().add(mediaCrush);
+		MediaCrushProvider mediaCrush = new MediaCrushProvider(MEDIACRUSH_URL);
+		cm.getChannels().add(mediaCrush);
 	}
 
 }
