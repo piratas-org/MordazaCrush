@@ -5,9 +5,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.confederacionpirata.mordazacrush.api.ChannelManager;
+import org.confederacionpirata.mordazacrush.api.MediaCrushProvider;
+
 import android.app.Activity;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -19,6 +23,7 @@ import android.widget.ImageButton;
 
 public class MainActivity extends Activity implements PictureCallback {
 
+	private static final String MEDIACRUSH_URL = "http://mediacrush.confederacionpirata.org/api";
 	private CameraPreview cameraPreview;
 	private ImageButton btnTakePhoto;
 
@@ -47,6 +52,8 @@ public class MainActivity extends Activity implements PictureCallback {
 		cameraPreview = new CameraPreview(this);
 		FrameLayout preview = (FrameLayout) findViewById(R.id.layCameraPreview);
 		preview.addView(cameraPreview);
+
+		setupChannels();
 	}
 
 	@Override
@@ -54,7 +61,7 @@ public class MainActivity extends Activity implements PictureCallback {
 		super.onResume();
 		cameraPreview.startPreview();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		cameraPreview.stopPreview();
@@ -74,7 +81,8 @@ public class MainActivity extends Activity implements PictureCallback {
 
 	@Override
 	public void onPictureTaken(byte[] data, Camera camera) {
-		
+
+		// continue on preview mode
 		cameraPreview.stopPreview();
 		cameraPreview.startPreview();
 
@@ -84,14 +92,31 @@ public class MainActivity extends Activity implements PictureCallback {
 		File pictureFile = new File(directory, filename);
 
 		try {
+
 			FileOutputStream fos = new FileOutputStream(pictureFile);
 			fos.write(data);
 			fos.close();
+
+			// send photo to the channels
+			Location location = null;
+			ChannelManager.getInstance().sendImage(pictureFile, location, null);
+
 		} catch (FileNotFoundException e) {
+
 			Log.d(MCApp.LOGTAG, "File not found: " + e.getMessage());
+
 		} catch (IOException e) {
+
 			Log.d(MCApp.LOGTAG, "Error accessing file: " + e.getMessage());
-		}		
+		}
+	}
+
+	private void setupChannels() {
+
+		ChannelManager cm = ChannelManager.getInstance();
+
+//		MediaCrushProvider mediaCrush = new MediaCrushProvider(MEDIACRUSH_URL);
+//		cm.getChannels().add(mediaCrush);
 	}
 
 }

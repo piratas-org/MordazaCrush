@@ -1,9 +1,9 @@
 package org.confederacionpirata.mordazacrush.api;
 
-public interface QueueHandler {
+public interface QueuedMessage {
 
 	public enum Status {
-		WAITING, SENDING, SENT, ERROR
+		NONE, WAITING, SENDING, SENT, CANCELED, ERROR
 	}
 
 	/**
@@ -35,9 +35,14 @@ public interface QueueHandler {
 	long getTotalBytes();
 
 	/**
-	 * Removes de element from the queue.
+	 * Removes the element from the queue.
 	 */
 	void remove();
+
+	/**
+	 * Cancels the sending of the element.
+	 */
+	void cancel();
 
 	/**
 	 * Retries sending when cancelled.

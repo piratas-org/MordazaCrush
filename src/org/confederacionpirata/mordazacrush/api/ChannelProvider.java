@@ -1,22 +1,25 @@
 package org.confederacionpirata.mordazacrush.api;
 
-import android.graphics.Bitmap;
+import java.io.File;
+
 import android.location.Location;
 
 public interface ChannelProvider {
 
-	/***
+	public static final int FILETYPE_IMAGE_JPEG = 1;
+
+	/**
 	 * Queues a photo in order to send to the remote server.
 	 * 
-	 * @param photo
-	 *            The photo.
+	 * @param file
+	 *            The media file to send.
 	 * @param location
-	 *            Where the photo was taken. It could be null.
+	 *            Where the media file was taken. It could be null.
 	 * @param listener
 	 *            Listener to handle action events.
 	 * @return A handler to control the element in the queue.
 	 */
-	QueueHandler sendPhoto(Bitmap photo, Location location,
+	QueuedMessage send(File file, int fileType, Location location,
 			ActionListener listener);
 
 	/***
