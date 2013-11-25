@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import android.content.Context;
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 import android.os.Build;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -62,6 +63,30 @@ public class CameraPreview extends SurfaceView implements Callback {
 		try {
 
 			camera = Camera.open();
+
+			// camera features
+			Parameters params = camera.getParameters();
+
+			// auto focus
+			if (params.getSupportedFocusModes().contains(
+					Camera.Parameters.FOCUS_MODE_AUTO)) {
+				params.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+			}
+
+			// auto white balance
+			if (params.getSupportedWhiteBalance().contains(
+					Camera.Parameters.WHITE_BALANCE_AUTO)) {
+				params.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_AUTO);
+			}
+
+			// disable flash
+			if (params.getSupportedFlashModes().contains(
+					Camera.Parameters.FLASH_MODE_OFF)) {
+				params.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+			}
+
+			camera.setParameters(params);
+
 			started = false;
 
 		} catch (Exception e) {
