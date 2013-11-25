@@ -52,6 +52,12 @@ public class MainActivity extends Activity implements PictureCallback {
 		super.onResume();
 		cameraPreview.startPreview();
 	}
+	
+	@Override
+	protected void onPause() {
+		cameraPreview.stopPreview();
+		super.onPause();
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
