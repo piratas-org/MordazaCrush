@@ -1,15 +1,21 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/ActivityFrame"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <FrameLayout
+        android:id="@+id/layCameraPreview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray" >
+    </FrameLayout>
+
     <LinearLayout
         android:id="@+id/layButtons"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="top|center_horizontal"
         android:orientation="horizontal" >
 
         <ImageButton
@@ -24,17 +30,10 @@
             android:id="@+id/btnTakePhotoBurst"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:visibility="gone"
             android:contentDescription="@android:string/untitled"
             android:scaleType="fitCenter"
-            android:src="@drawable/main_take_photo" />
+            android:src="@drawable/main_take_photo"
+            android:visibility="gone" />
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/layCameraPreview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/layButtons" >
-    </FrameLayout>
-
-</RelativeLayout>
+</FrameLayout>

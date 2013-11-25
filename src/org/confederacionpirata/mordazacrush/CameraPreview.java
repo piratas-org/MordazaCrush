@@ -1,8 +1,11 @@
 package org.confederacionpirata.mordazacrush;
 
+import java.io.IOException;
+
 import android.content.Context;
 import android.hardware.Camera;
 import android.os.Build;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
@@ -11,21 +14,24 @@ public class CameraPreview extends SurfaceView implements Callback {
 
 	private Camera camera;
 	private SurfaceHolder holder;
+	private boolean started;
 
 	@SuppressWarnings("deprecation")
-	public CameraPreview(Context context, Camera camera) {
+	public CameraPreview(Context context) {
 
 		super(context);
+		camera = null;
 
-		this.camera = camera;
-		this.holder = getHolder();
-
-		// callback
+		holder = getHolder();
 		holder.addCallback(this);
 
-		if (Build.VERSION.SDK_INT < 11) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
 			holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 		}
+	}
+
+	public Camera getCamera() {
+		return camera;
 	}
 
 	@Override
@@ -34,27 +40,9 @@ public class CameraPreview extends SurfaceView implements Callback {
 
 		if (holder.getSurface() != null) {
 
-			// stop preview
-			try {
-				
-				camera.stopPreview();
-				
-			} catch (Exception e) {
-				
-				// ignore: tried to stop a non-existent preview
-			}
-
-			// TODO set preview size and make any resize, rotate or reformatting
-
-			// start preview with new settings
-			try {
-				
-				camera.setPreviewDisplay(holder);
-				camera.startPreview();
-				
-			} catch (Exception e) {
-				
-				// TODO Error starting camera preview
+			if (started) {
+				stopPreview();
+				startPreview();
 			}
 		}
 	}
@@ -62,21 +50,58 @@ public class CameraPreview extends SurfaceView implements Callback {
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 
-		try {
-			
-            camera.setPreviewDisplay(holder);
-            camera.startPreview();
-            
-        } catch (Exception e) {
-        	
-            // TODO Error setting camera preview
-        }
+		startPreview();
 	}
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
+	}
 
-		camera.stopPreview();
+	private void initCamera() {
+
+		try {
+
+			camera = Camera.open();
+			started = false;
+
+		} catch (Exception e) {
+
+			Log.e(MCApp.LOGTAG, "Error opening the camera: " + e.getMessage());
+			e.printStackTrace();
+			camera = null;
+		}
+	}
+
+	public void startPreview() {
+
+		if (camera == null) {
+			initCamera();
+		}
+
+		if (camera != null && !started) {
+
+			try {
+
+				camera.setPreviewDisplay(holder);
+				camera.startPreview();
+				started = true;
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void stopPreview() {
+
+		if (camera != null && started) {
+
+			camera.stopPreview();
+			camera.release();
+			camera = null;
+			started = false;
+		}
 	}
 
 }

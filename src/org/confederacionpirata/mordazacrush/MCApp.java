@@ -6,6 +6,8 @@ import android.content.pm.PackageManager.NameNotFoundException;
 
 public class MCApp extends Application {
 
+	public static final String LOGTAG = "MordazaCrush";
+	
 	private static Context context = null;
 	private static String appVersionName;
 	private static int appRevision;
