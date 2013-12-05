@@ -6,7 +6,7 @@ import java.util.List;
 
 import android.location.Location;
 
-public class ChannelManager {
+public class ChannelManager implements ActionListener {
 
 	private List<ChannelProvider> channels;
 	private static ChannelManager instance = null;
@@ -31,19 +31,36 @@ public class ChannelManager {
 		return channels;
 	}
 
-	public QueuedMessage[] sendImage(File file, Location location,
-			ActionListener listener) {
+	public QueuedMessage[] sendImage(File file, String[] hashtags,
+			Location location) {
 
 		int channelsLength = channels.size();
 		QueuedMessage[] result = new QueuedMessage[channelsLength];
 
-		int fileType = ChannelProvider.FILETYPE_IMAGE_JPEG;
 		for (int c = 0; c < channelsLength; c++) {
-			result[c] = channels.get(c)
-					.send(file, fileType, location, listener);
+			result[c] = channels.get(c).postImage(file, hashtags, location,
+					this);
 		}
 
 		return result;
+	}
+
+	@Override
+	public void onProgress(QueuedMessage message) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onError(QueuedMessage message) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onComplete(QueuedMessage message) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

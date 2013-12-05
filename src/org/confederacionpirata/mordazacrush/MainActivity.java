@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.confederacionpirata.mordazacrush.api.ChannelManager;
 import org.confederacionpirata.mordazacrush.api.MediaCrushProvider;
@@ -24,8 +26,26 @@ import android.widget.ImageButton;
 public class MainActivity extends Activity implements PictureCallback {
 
 	private static final String MEDIACRUSH_URL = "http://mediacrush.confederacionpirata.org/api";
+
+	// widgets
 	private CameraPreview cameraPreview;
 	private ImageButton btnTakePhoto;
+
+	// fields
+	List<String> hashtags;
+
+	// constructor
+	public MainActivity() {
+		this.hashtags = new ArrayList<String>();
+	}
+
+	// properties
+
+	private String getMainHashtag() {
+		return (hashtags.size() > 0 ? hashtags.get(0) : "");
+	}
+
+	// activity
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +95,8 @@ public class MainActivity extends Activity implements PictureCallback {
 		return true;
 	}
 
+	// implementation
+
 	protected void takePhoto() {
 		cameraPreview.getCamera().takePicture(null, null, this);
 	}
@@ -98,8 +120,10 @@ public class MainActivity extends Activity implements PictureCallback {
 			fos.close();
 
 			// send photo to the channels
+			String[] hashtags = getHashtags();
 			Location location = null;
-			ChannelManager.getInstance().sendImage(pictureFile, location, null);
+			ChannelManager.getInstance().sendImage(pictureFile, hashtags,
+					location);
 
 		} catch (FileNotFoundException e) {
 
@@ -109,6 +133,10 @@ public class MainActivity extends Activity implements PictureCallback {
 
 			Log.d(MCApp.LOGTAG, "Error accessing file: " + e.getMessage());
 		}
+	}
+
+	private String[] getHashtags() {
+		return hashtags.toArray(new String[hashtags.size()]);
 	}
 
 	private void setupChannels() {

@@ -15,35 +15,34 @@ public class MediaCrushProvider implements ChannelProvider {
 	}
 
 	@Override
-	public QueuedMessage send(File file, int fileType, Location location,
-			ActionListener listener) {
+	public QueuedMessage postImage(File file, String[] hashtags,
+			Location location, ActionListener listener) {
 
-		MediaCrushMessage message = new MediaCrushMessage(this, file, fileType,
-				listener);
+		MediaCrushMessage message = new MediaCrushMessage(this, file,
+				Message.TYPE_IMAGE_JPEG, listener);
 
-		return send(message);
-	}
+		return message;
+	};
 
 	@Override
 	public void removeAll() {
 		// TODO Auto-generated method stub
 	}
 
-	private QueuedMessage send(MediaCrushMessage message) {
-		// TODO
-		return null;
+
+	@Override
+	public boolean isSupportingImages() {
+		return true;
 	}
 
-	public void remove(MediaCrushMessage mediaCrushMessage) {
-		// TODO Auto-generated method stub
+	@Override
+	public boolean isSupportingVideos() {
+		return false;
 	}
 
-	public void cancel(MediaCrushMessage mediaCrushMessage) {
-		// TODO Auto-generated method stub
-	}
-
-	public void retry(MediaCrushMessage mediaCrushMessage) {
-		// TODO Auto-generated method stub
+	@Override
+	public boolean isSupportingAudios() {
+		return false;
 	}
 
 }

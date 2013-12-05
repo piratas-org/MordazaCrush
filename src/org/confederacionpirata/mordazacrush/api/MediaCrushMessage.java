@@ -72,20 +72,20 @@ public class MediaCrushMessage implements QueuedMessage {
 
 	@Override
 	public void remove() {
+		// TODO Auto-generated method stub
 		
-		provider.remove(this);
-	}
-
-	@Override
-	public void retry() {
-		
-		provider.retry(this);
 	}
 
 	@Override
 	public void cancel() {
+		// TODO Auto-generated method stub
 		
-		provider.cancel(this);
+	}
+
+	@Override
+	public void retry() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

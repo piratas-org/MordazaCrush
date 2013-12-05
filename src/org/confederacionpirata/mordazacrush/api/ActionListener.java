@@ -5,17 +5,21 @@ public interface ActionListener {
 	/**
 	 * Progress has advanced.
 	 * 
-	 * @param queueHandler
+	 * @param message The queued message.
 	 */
-	void onProgress(QueuedMessage queueMessage);
+	void onProgress(QueuedMessage message);
 
 	/**
-	 * An error was raised. 
+	 * An error was raised.
+	 *  
+	 * @param message The queued message.
 	 */
-	void onError(QueuedMessage queueMessage);
+	void onError(QueuedMessage message);
 
 	/**
-	 * Photo was sent.
+	 * Message was sent.
+	 *  
+	 * @param message The queued message.
 	 */
-	void onComplete(QueuedMessage queueMessage);
+	void onComplete(QueuedMessage message);
 }
