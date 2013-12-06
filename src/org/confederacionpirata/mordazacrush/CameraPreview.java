@@ -18,7 +18,6 @@ public class CameraPreview extends SurfaceView implements Callback {
 	private Camera camera;
 	private SurfaceHolder holder;
 	private boolean started;
-	private List<Size> camPreviewSizes;
 
 	@SuppressWarnings("deprecation")
 	public CameraPreview(Context context) {
@@ -145,17 +144,18 @@ public class CameraPreview extends SurfaceView implements Callback {
 	private void selectCameraPreviewSize(int width, int height) {
 
 		Parameters params = camera.getParameters();
+		List<Size> camPreviewSizes = params.getSupportedPreviewSizes();
 
 		// target
 		Size selected = camPreviewSizes.get(0);
-		double targetRatio = (double) width / height;
+		double targetRatio = adaptedRatio(width, height);
 		double minDelta = Double.MAX_VALUE;
 
 		// explore possibilities
 		for (Size size : camPreviewSizes) {
-
+			
 			// compare ratios
-			double ratio = (double) size.width / size.height;
+			double ratio = adaptedRatio(size.width, size.height);
 			double delta = Math.abs(targetRatio - ratio);
 			if (delta < minDelta) {
 
@@ -168,6 +168,11 @@ public class CameraPreview extends SurfaceView implements Callback {
 		// set preview size
 		params.setPreviewSize(selected.width, selected.height);
 		camera.setParameters(params);
+	}
+
+	private double adaptedRatio(double width, double height) {
+
+		return (width > height ? width / height : height / width);
 	}
 
 }
