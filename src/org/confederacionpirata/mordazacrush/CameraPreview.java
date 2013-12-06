@@ -1,10 +1,12 @@
 package org.confederacionpirata.mordazacrush;
 
 import java.io.IOException;
+import java.util.List;
 
 import android.content.Context;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
+import android.hardware.Camera.Size;
 import android.os.Build;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -16,6 +18,7 @@ public class CameraPreview extends SurfaceView implements Callback {
 	private Camera camera;
 	private SurfaceHolder holder;
 	private boolean started;
+	private List<Size> camPreviewSizes;
 
 	@SuppressWarnings("deprecation")
 	public CameraPreview(Context context) {
@@ -46,6 +49,8 @@ public class CameraPreview extends SurfaceView implements Callback {
 				startPreview();
 			}
 		}
+
+		selectCameraPreviewSize(width, height);
 	}
 
 	@Override
@@ -62,6 +67,7 @@ public class CameraPreview extends SurfaceView implements Callback {
 
 		try {
 
+			// first back-facing camera
 			camera = Camera.open();
 
 			// camera features
@@ -118,6 +124,7 @@ public class CameraPreview extends SurfaceView implements Callback {
 				started = true;
 
 			} catch (IOException e) {
+	
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -133,6 +140,34 @@ public class CameraPreview extends SurfaceView implements Callback {
 			camera = null;
 			started = false;
 		}
+	}
+
+	private void selectCameraPreviewSize(int width, int height) {
+
+		Parameters params = camera.getParameters();
+
+		// target
+		Size selected = camPreviewSizes.get(0);
+		double targetRatio = (double) width / height;
+		double minDelta = Double.MAX_VALUE;
+
+		// explore possibilities
+		for (Size size : camPreviewSizes) {
+
+			// compare ratios
+			double ratio = (double) size.width / size.height;
+			double delta = Math.abs(targetRatio - ratio);
+			if (delta < minDelta) {
+
+				// select the smallest difference
+				selected = size;
+				minDelta = delta;
+			}
+		}
+
+		// set preview size
+		params.setPreviewSize(selected.width, selected.height);
+		camera.setParameters(params);
 	}
 
 }
